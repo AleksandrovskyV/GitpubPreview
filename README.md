@@ -1,7 +1,5 @@
 <br><br>
   
-## Gitpub Preview:
-
 Плагин для Sublime Text build 4200  
 Для локального просмотра создаваемой гитхабом HTML по Markdown  
 c `jekyll-theme-primer.css` через запрос к `GitHub-Api`  
