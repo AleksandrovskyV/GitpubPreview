@@ -9,7 +9,7 @@
 
     // true  - out to temp file, 
     // false - near in .md directory
-    "use_temp": true,
+    "use_temp": false,
 
     // add <meta> for auto update page
     // to avoid opening new tabs in browser

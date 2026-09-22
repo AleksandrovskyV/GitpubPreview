@@ -82,7 +82,8 @@ class GitpubMdCommand(sublime_plugin.TextCommand):
                 temp_dir = tempfile.gettempdir()
                 output_path = os.path.join(temp_dir, "gitpub_preview.html")                
             else:
-                output_path = os.path.join(os.path.dirname(md_file_path), "preview.html")
+                res_file_name = os.path.splitext(title)[0] + "_preview.html"
+                output_path = os.path.join(os.path.dirname(md_file_path), res_file_name)
 
 
             file_exists = os.path.exists(output_path)
