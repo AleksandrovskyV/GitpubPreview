@@ -8,7 +8,7 @@ package to .zip > \[ [download](https://github.com/AleksandrovskyV/GitpubPreview
 
 #### Зачем?
 
-<details><summary>Ну...</summary>
+<details markdown="1"><summary>Ну...</summary>
 
 Я держу часть своих заметок в формате `.md` файлов, которые Github любезно  
 превращает в публичные `.html` через базовый движок Jekyll, подключая к ним  
