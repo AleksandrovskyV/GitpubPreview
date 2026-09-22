@@ -5,6 +5,8 @@ import os, json, webbrowser
 import urllib.request
 import urllib.error
 
+import tempfile
+
 class GitpubMdCommand(sublime_plugin.TextCommand):
     def run(self, edit):
         md_file_path = self.view.file_name()
@@ -17,6 +19,11 @@ class GitpubMdCommand(sublime_plugin.TextCommand):
         sublime.status_message("[GitPub] {}".format(settings))
         github_token = settings.get("github_token", "").strip()
         css_setting = settings.get("css_path", "./assets/jekyll-theme-primer.css").strip()
+        
+        use_temp = settings.get("use_temp", False)
+        refresh_temp = settings.get("refresh_temp", False)
+        refresh_time = settings.get("refresh_time", 2)
+
 
         if not github_token:
             sublime.error_message("[GitPub] Error_2 'github_token' not valid")
@@ -46,13 +53,20 @@ class GitpubMdCommand(sublime_plugin.TextCommand):
 
         title = os.path.basename(md_file_path)
         csslink = css_path.replace(os.sep, '/')
+
+        meta_upd="""
+<meta http-equiv="refresh" content="{}">
+        """.format(refresh_time) if refresh_temp else ""
+
         try:
             with urllib.request.urlopen(req) as response:
                 html_body = response.read().decode("utf-8")
 
+
             output_html = """
 <!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8">
-<title>Preview: {}</title>
+{}
+<title>GitPub Preview</title>
 <link rel="stylesheet" href="file:///{}">
 </head>
 <div class="container-lg px-3 my-5 markdown-body">
@@ -60,14 +74,35 @@ class GitpubMdCommand(sublime_plugin.TextCommand):
 {}
 </body>
 </html>
-            """.format(title,csslink,title,html_body)
+            """.format(meta_upd,csslink,title,html_body)
 
-            output_path = os.path.join(os.path.dirname(md_file_path), "preview.html")
+
+
+            if use_temp:
+                temp_dir = tempfile.gettempdir()
+                output_path = os.path.join(temp_dir, "gitpub_preview.html")                
+            else:
+                output_path = os.path.join(os.path.dirname(md_file_path), "preview.html")
+
+
+            file_exists = os.path.exists(output_path)
+
             with open(output_path, "w", encoding="utf-8") as f:
                 f.write(output_html)
             
-            sublime.status_message("[GitPub] Succes!")
-            webbrowser.open("file:///{}".format(output_path))
+            url_to_open = "file:///{}".format(output_path.replace(os.sep, '/'))
+
+            if not refresh_temp:
+                webbrowser.open(url_to_open, new=0)
+            else:
+                file_exists = os.path.exists(output_path)
+
+                if not file_exists:
+                    webbrowser.open(url_to_open, new=0)
+
+            sublime.status_message("[GitPub] Success: {}".format(output_path))
+
+
 
         except urllib.error.HTTPError as e:
             err_details = e.read().decode("utf-8", errors="ignore")
@@ -83,5 +118,4 @@ class GitpubMdCommand(sublime_plugin.TextCommand):
                 
         except Exception as e:
             sublime.error_message("[GitPub] Network Error\n{}".format(str(e)))
-
 
