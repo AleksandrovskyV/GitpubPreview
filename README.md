@@ -1,10 +1,10 @@
-<br><br>
+<br>
   
 Плагин для Sublime Text build 4200  
 Для локального просмотра создаваемой гитхабом HTML по Markdown  
 c `jekyll-theme-primer.css` через запрос к `GitHub-Api`  
 
-package to .zip > \[[download](https://github.com/AleksandrovskyV/GitpubPreview/releases/download/v1.0.0/GitpubPreview.zip) \[ 
+package to .zip > \[ [download](https://github.com/AleksandrovskyV/GitpubPreview/releases/download/v1.0.0/GitpubPreview.zip) \]<br><br>
 
 #### Зачем?
 
