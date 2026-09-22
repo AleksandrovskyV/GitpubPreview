@@ -1,0 +1,25 @@
+[
+    {
+        "id": "preferences",
+        "children": [
+            {
+                "caption": "Package Settings",
+                "id": "package-settings",
+                "children": [
+                    {
+                        "caption": "Gitpub Preview",
+                        "children": [
+                            {
+                                "command": "open_file",
+                                "args": {
+                                    "file": "${packages}/GitpubPreview/gitpub_md.sublime-settings"
+                                },
+                                "caption": "Settings"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]

@@ -1,0 +1,9 @@
+{
+    // github classic tokens
+    // any name, uncheck all checkbox
+    // https://github.com/settings/tokens
+    "github_token": "replaceThisdisi",
+
+    // i download current ".css" file theme after build  
+    "css_path": "./assets/jekyll-theme-primer.css"
+}
