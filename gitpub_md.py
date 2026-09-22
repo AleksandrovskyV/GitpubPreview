@@ -71,6 +71,17 @@ class GitpubMdCommand(sublime_plugin.TextCommand):
 
         except urllib.error.HTTPError as e:
             err_details = e.read().decode("utf-8", errors="ignore")
-            sublime.error_message("[GitPub] API Error {}]\n{}".format(e.code,err_details))
+            
+            if e.code == 401:
+                sublime.error_message(
+                    "[GitPub][Error][401]\n\n"
+                    "Not valid token github \n"
+                    "Check in Preferences>...>Settings\n"
+                )
+            else:
+                sublime.error_message("[GitPub] API Error {}]\n{}".format(e.code, err_details))
+                
         except Exception as e:
             sublime.error_message("[GitPub] Network Error\n{}".format(str(e)))
+
+
