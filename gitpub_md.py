@@ -62,6 +62,19 @@ class GitpubMdCommand(sublime_plugin.TextCommand):
             with urllib.request.urlopen(req) as response:
                 html_body = response.read().decode("utf-8")
 
+            # 1. restore img-source  camo-case,
+            html_body = re.sub(r'<a\s+[^>]*href="[^"]*camo\.githubusercontent\.com[^"]*"[^>]*>(\s*<img\s+[^>]*>)\s*</a>', r'\1', html_body)
+            
+            def restore_src(match):
+                img_tag = match.group(0)
+                canonical_match = re.search(r'data-canonical-src="([^"]+)"', img_tag)
+                if canonical_match:
+                    real_url = canonical_match.group(1)
+                    img_tag = re.sub(r'src="[^"]+"', 'src="{}"'.format(real_url), img_tag)
+                return img_tag
+
+            html_body = re.sub(r'<img\s+[^>]*camo\.githubusercontent\.com[^>]*>', restore_src, html_body)
+
 
             output_html = """
 <!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8">
